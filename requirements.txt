@@ -3,3 +3,4 @@ werkzeug
 qrcode
 pillow
 gunicorn
+python-dotenv
