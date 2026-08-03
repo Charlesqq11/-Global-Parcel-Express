@@ -50,7 +50,21 @@
                     <th>Last Updated</th>
                     <td>{{ parcel[6] }}</td>
                 </tr>
-            </table>
+
+                <tr>
+                    <th>Parcel Image</th>
+                    <td>
+                        {% if parcel["parcel_image"] %}
+                            <img src="{{ url_for('static', filename='uploads/' ~ parcel["parcel_image"]) }}" 
+                                width="300" 
+                                alt="Parcel Image">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='uploads/box.jpg') }}" 
+                                width="300" 
+                                alt="Parcel Image">
+                        {% endif %}
+                    </td>
+                </tr>
 
             <button onclick="window.print()" class="btn btn-primary">
                    🖨️ Print Invoice
