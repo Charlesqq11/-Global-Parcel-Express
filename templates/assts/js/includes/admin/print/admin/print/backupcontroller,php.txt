@@ -1,0 +1,28 @@
+<?php
+
+$host = "localhost";
+$username = "root";
+$password = "";
+$database = "parcel_tracking";
+
+$backupDir = "../backups/";
+
+if (!is_dir($backupDir)) {
+    mkdir($backupDir, 0777, true);
+}
+
+$filename = $database . "_" . date("Y-m-d_H-i-s") . ".sql";
+$filepath = $backupDir . $filename;
+
+$command = "mysqldump --host=$host --user=$username --password=$password $database > \"$filepath\"";
+
+exec($command, $output, $result);
+
+if ($result === 0) {
+    echo "Database backup created successfully.<br>";
+    echo "Backup file: " . $filename;
+} else {
+    echo "Database backup failed.";
+}
+
+?>

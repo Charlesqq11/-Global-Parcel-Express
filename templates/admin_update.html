@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Parcel</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="card shadow p-4">
+
+        <h2 class="text-center text-primary mb-4">
+            📦 Update Parcel Status
+        </h2>
+
+        <form method="POST">
+
+            <!-- Tracking Number -->
+            <div class="mb-3">
+                <label class="form-label">Tracking Number</label>
+                <input type="text"
+                       class="form-control"
+                       value="{{ parcel.tracking_number }}"
+                       readonly>
+            </div>
+
+            <!-- Sender Name -->
+            <div class="mb-3">
+                <label class="form-label">Sender Name</label>
+                <input type="text"
+                       class="form-control"
+                       name="sender_name"
+                       value="{{ parcel.sender_name }}"
+                       required>
+            </div>
+
+            <!-- Receiver Name -->
+            <div class="mb-3">
+                <label class="form-label">Receiver Name</label>
+                <input type="text"
+                       class="form-control"
+                       name="receiver_name"
+                       value="{{ parcel.receiver_name }}"
+                       required>
+            </div>
+
+            <!-- Receiver Email -->
+            <div class="mb-3">
+                <label class="form-label">Receiver Email</label>
+                <input type="email"
+                       class="form-control"
+                       name="receiver_email"
+                       value="{{ parcel.receiver_email }}"
+                       required>
+            </div>
+
+            <!-- Status -->
+            <div class="mb-3">
+                <label class="form-label">Status</label>
+                <select class="form-select" name="status">
+                    <option {% if parcel.status == "Created" %}selected{% endif %}>Created</option>
+                    <option {% if parcel.status == "Pending" %}selected{% endif %}>Pending</option>
+                    <option {% if parcel.status == "Received" %}selected{% endif %}>Received</option>
+                    <option {% if parcel.status == "In Transit" %}selected{% endif %}>In Transit</option>
+                    <option {% if parcel.status == "Out for Delivery" %}selected{% endif %}>Out for Delivery</option>
+                    <option {% if parcel.status == "Delivered" %}selected{% endif %}>Delivered</option>
+                    <option {% if parcel.status == "On Hold" %}selected{% endif %}>On Hold</option>
+                </select>
+            </div>
+
+            <!-- Current Location -->
+            <div class="mb-3">
+                <label class="form-label">Current Location</label>
+                <input type="text"
+                       class="form-control"
+                       name="location"
+                       value="{{ parcel.location }}"
+                       required>
+            </div>
+
+            <button type="submit" class="btn btn-success">
+                ✅ Update Parcel
+            </button>
+
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>

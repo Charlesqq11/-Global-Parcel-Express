@@ -1,0 +1,85 @@
+<?php
+
+require_once '../../config/database.php';
+
+$sql = "SELECT * FROM parcels ORDER BY updated_at DESC";
+$result = $conn->query($sql);
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Parcel List</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    margin:20px;
+}
+
+h2{
+    text-align:center;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+table, th, td{
+    border:1px solid #000;
+}
+
+th, td{
+    padding:8px;
+    text-align:left;
+}
+
+@media print{
+    .no-print{
+        display:none;
+    }
+}
+</style>
+
+</head>
+<body>
+
+<div class="no-print">
+    <button onclick="window.print()">Print Parcel List</button>
+</div>
+
+<h2>Parcel Tracking System</h2>
+<h3 style="text-align:center;">Parcel List Report</h3>
+
+<table>
+
+<tr>
+    <th>ID</th>
+    <th>Tracking Number</th>
+    <th>Sender</th>
+    <th>Receiver</th>
+    <th>Status</th>
+    <th>Location</th>
+    <th>Updated At</th>
+</tr>
+
+<?php while($row = $result->fetch_assoc()): ?>
+
+<tr>
+    <td><?= htmlspecialchars($row['id']) ?></td>
+    <td><?= htmlspecialchars($row['tracking_number']) ?></td>
+    <td><?= htmlspecialchars($row['sender_name']) ?></td>
+    <td><?= htmlspecialchars($row['receiver_name']) ?></td>
+    <td><?= htmlspecialchars($row['status']) ?></td>
+    <td><?= htmlspecialchars($row['location']) ?></td>
+    <td><?= htmlspecialchars($row['updated_at']) ?></td>
+</tr>
+
+<?php endwhile; ?>
+
+</table>
+
+<script>
+window.onload =
