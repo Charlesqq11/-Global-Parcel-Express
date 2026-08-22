@@ -13,7 +13,6 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "pdf"}
 app.register_blueprint(auth)
 
 @app.route("/track", methods=["GET", "POST"])
-
 def add_parcel():
 
     if request.method == "POST":

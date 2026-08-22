@@ -32,7 +32,7 @@ def send_email(receiver_email, subject, message):
     msg.set_content(message)
 
     try:
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=10) as smtp:
             smtp.login(sender_email, sender_password)
             smtp.send_message(msg)
 
@@ -539,4 +539,4 @@ def send_email(receiver_email, subject, message):
         print("Email Error:", e)
 
 if __name__ == "__main__":
-     app.run(debug=True)
+     app.run(host="0.0.0.0", port=5000, debug=True)
