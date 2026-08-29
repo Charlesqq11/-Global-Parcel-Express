@@ -1,46 +1,1291 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Parcel Tracking | Track Your Shipment</title>
+
+    <meta
+        name="description"
+        content="Securely track your shipment and view the latest available delivery information."
+    >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
     <style>
+
+        /* =========================================================
+           DESIGN SYSTEM
+        ========================================================= */
+
+        :root {
+            --navy: #07111f;
+            --navy-2: #0b1728;
+            --blue: #2563eb;
+            --blue-dark: #1d4ed8;
+            --blue-light: #eff6ff;
+
+            --text: #0f172a;
+            --text-soft: #475467;
+            --muted: #667085;
+
+            --border: #e4e7ec;
+            --border-soft: #eef1f5;
+
+            --white: #ffffff;
+            --background: #f8fafc;
+
+            --success: #12b76a;
+        }
+
+        /* =========================================================
+           RESET
+        ========================================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            background-color: #f4f6f9;
+            min-height: 100vh;
+            background: var(--background);
+            color: var(--text);
+            font-family: "Inter", -apple-system, BlinkMacSystemFont,
+                "Segoe UI", sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
-        .navbar-brand {
-            font-size: 1.5rem;
+
+        button,
+        input {
+            font-family: inherit;
         }
-        .input-group input {
-            border-right: none;
+
+        a {
+            color: inherit;
+            text-decoration: none;
         }
-        .input-group button {
-            border-left: none;
-            font-weight: 600;
+
+        /* =========================================================
+           NAVIGATION
+        ========================================================= */
+
+        .navbar {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.92);
+            border-bottom: 1px solid rgba(228, 231, 236, 0.8);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
         }
+
+        .navbar-container {
+            width: min(1180px, calc(100% - 40px));
+            height: 76px;
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background: linear-gradient(
+                145deg,
+                #2563eb,
+                #1d4ed8
+            );
+
+            color: white;
+            font-size: 19px;
+
+            box-shadow:
+                0 8px 20px rgba(37, 99, 235, 0.22);
+        }
+
+        .brand-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .brand-name {
+            color: var(--text);
+            font-size: 15px;
+            font-weight: 750;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-tagline {
+            color: #98a2b3;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            color: #667085;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .system-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+            background: var(--success);
+
+            box-shadow:
+                0 0 0 4px rgba(18, 183, 106, 0.10);
+        }
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+
+            padding:
+                96px 20px
+                92px;
+
+            background:
+                radial-gradient(
+                    circle at 50% -15%,
+                    rgba(37, 99, 235, 0.12),
+                    transparent 40%
+                ),
+                linear-gradient(
+                    180deg,
+                    #ffffff 0%,
+                    #f8fafc 100%
+                );
+        }
+
+        .hero::before {
+            content: "";
+
+            position: absolute;
+
+            width: 700px;
+            height: 700px;
+
+            top: -500px;
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            border-radius: 50%;
+
+            border: 1px solid rgba(37, 99, 235, 0.08);
+
+            box-shadow:
+                0 0 0 80px rgba(37, 99, 235, 0.015),
+                0 0 0 160px rgba(37, 99, 235, 0.012);
+
+            pointer-events: none;
+        }
+
+        .hero-container {
+            position: relative;
+            z-index: 1;
+
+            width: min(1050px, 100%);
+            margin: auto;
+
+            text-align: center;
+        }
+
+        /* =========================================================
+           EYEBROW
+        ========================================================= */
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+
+            padding: 8px 13px;
+
+            border: 1px solid #dbe7ff;
+            border-radius: 999px;
+
+            background: rgba(239, 246, 255, 0.8);
+
+            color: #175cd3;
+
+            font-size: 11px;
+            font-weight: 650;
+            letter-spacing: 0.01em;
+        }
+
+        .eyebrow-icon {
+            width: 17px;
+            height: 17px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #dbe7ff;
+
+            font-size: 9px;
+        }
+
+        /* =========================================================
+           HERO TITLE
+        ========================================================= */
+
+        .hero-title {
+            max-width: 850px;
+
+            margin: 27px auto 0;
+
+            color: #0b1220;
+
+            font-size: clamp(
+                46px,
+                7vw,
+                76px
+            );
+
+            font-weight: 800;
+            line-height: 1.01;
+
+            letter-spacing: -0.055em;
+        }
+
+        .hero-title span {
+            color: var(--blue);
+        }
+
+        .hero-description {
+            max-width: 650px;
+
+            margin: 25px auto 0;
+
+            color: var(--text-soft);
+
+            font-size: 16px;
+            line-height: 1.75;
+        }
+
+        /* =========================================================
+           TRACKING AREA
+        ========================================================= */
+
+        .tracking-wrapper {
+            width: min(850px, 100%);
+
+            margin: 46px auto 0;
+        }
+
+        .tracking-card {
+            padding: 9px;
+
+            border: 1px solid rgba(208, 213, 221, 0.95);
+            border-radius: 19px;
+
+            background: rgba(255, 255, 255, 0.9);
+
+            box-shadow:
+                0 24px 70px rgba(16, 24, 40, 0.09),
+                0 4px 12px rgba(16, 24, 40, 0.035);
+
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+
+        .tracking-form {
+            display: flex;
+            gap: 9px;
+        }
+
+        .input-container {
+            position: relative;
+            flex: 1;
+        }
+
+        .input-icon {
+            position: absolute;
+
+            left: 19px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #98a2b3;
+
+            font-size: 17px;
+
+            pointer-events: none;
+        }
+
+        .tracking-input {
+            width: 100%;
+            height: 64px;
+
+            padding:
+                0 20px
+                0 51px;
+
+            border: 1px solid var(--border-soft);
+            border-radius: 12px;
+
+            outline: none;
+
+            background: #ffffff;
+
+            color: var(--text);
+
+            font-size: 14px;
+            font-weight: 500;
+
+            transition:
+                border-color 180ms ease,
+                box-shadow 180ms ease;
+        }
+
+        .tracking-input::placeholder {
+            color: #98a2b3;
+            font-weight: 400;
+        }
+
+        .tracking-input:focus {
+            border-color: #84adff;
+
+            box-shadow:
+                0 0 0 4px rgba(37, 99, 235, 0.09);
+        }
+
+        .track-button {
+            min-width: 166px;
+            height: 64px;
+
+            padding: 0 27px;
+
+            border: none;
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #1d4ed8
+                );
+
+            color: white;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 9px 20px rgba(37, 99, 235, 0.22);
+
+            transition:
+                transform 180ms ease,
+                box-shadow 180ms ease,
+                background 180ms ease;
+        }
+
+        .track-button:hover {
+            transform: translateY(-1px);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1d4ed8,
+                    #1e40af
+                );
+
+            box-shadow:
+                0 13px 27px rgba(37, 99, 235, 0.27);
+        }
+
+        .track-button:active {
+            transform: translateY(0);
+        }
+
+        /* =========================================================
+           SECURITY NOTE
+        ========================================================= */
+
+        .security-note {
+            margin-top: 15px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+
+            color: #98a2b3;
+
+            font-size: 11px;
+        }
+
+        .security-icon {
+            font-size: 12px;
+        }
+
+        /* =========================================================
+           TRUST BAR
+        ========================================================= */
+
+        .trust-bar {
+            width: min(950px, calc(100% - 40px));
+
+            margin: -1px auto 0;
+
+            position: relative;
+            z-index: 2;
+
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 18px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 16px 45px rgba(16, 24, 40, 0.06);
+
+            overflow: hidden;
+        }
+
+        .trust-item {
+            padding: 27px 25px;
+
+            text-align: center;
+        }
+
+        .trust-item + .trust-item {
+            border-left: 1px solid var(--border);
+        }
+
+        .trust-icon {
+            width: 39px;
+            height: 39px;
+
+            margin: 0 auto 12px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            background: #f2f4f7;
+
+            color: var(--blue);
+
+            font-size: 16px;
+        }
+
+        .trust-title {
+            color: #344054;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .trust-description {
+            max-width: 210px;
+
+            margin: 6px auto 0;
+
+            color: #98a2b3;
+
+            font-size: 11px;
+            line-height: 1.55;
+        }
+
+        /* =========================================================
+           FEATURES
+        ========================================================= */
+
+        .features {
+            padding: 105px 20px;
+
+            background: #ffffff;
+        }
+
+        .features-container {
+            width: min(1080px, 100%);
+            margin: auto;
+        }
+
+        .section-heading {
+            max-width: 680px;
+            margin: auto;
+            text-align: center;
+        }
+
+        .section-label {
+            margin-bottom: 12px;
+
+            color: var(--blue);
+
+            font-size: 11px;
+            font-weight: 750;
+
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            color: #101828;
+
+            font-size: clamp(30px, 4vw, 43px);
+
+            font-weight: 750;
+            line-height: 1.15;
+
+            letter-spacing: -0.035em;
+        }
+
+        .section-description {
+            margin-top: 17px;
+
+            color: var(--muted);
+
+            font-size: 14px;
+            line-height: 1.75;
+        }
+
+        .feature-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            min-height: 235px;
+
+            padding: 30px;
+
+            border: 1px solid var(--border);
+
+            border-radius: 17px;
+
+            background: #ffffff;
+
+            transition:
+                transform 200ms ease,
+                box-shadow 200ms ease,
+                border-color 200ms ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+
+            border-color: #d0d5dd;
+
+            box-shadow:
+                0 18px 42px rgba(16, 24, 40, 0.07);
+        }
+
+        .feature-icon {
+            width: 45px;
+            height: 45px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 22px;
+
+            border-radius: 13px;
+
+            background: var(--blue-light);
+
+            color: var(--blue);
+
+            font-size: 19px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 10px;
+
+            color: #1d2939;
+
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            color: #667085;
+
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        /* =========================================================
+           PROCESS
+        ========================================================= */
+
+        .process {
+            padding: 95px 20px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #f8fafc,
+                    #f1f5f9
+                );
+        }
+
+        .process-container {
+            width: min(1050px, 100%);
+            margin: auto;
+        }
+
+        .process-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+
+            margin-top: 48px;
+        }
+
+        .process-step {
+            position: relative;
+
+            padding: 28px;
+
+            border: 1px solid var(--border);
+
+            border-radius: 16px;
+
+            background: rgba(255, 255, 255, 0.82);
+        }
+
+        .step-number {
+            margin-bottom: 18px;
+
+            color: #b2bac5;
+
+            font-size: 11px;
+            font-weight: 750;
+
+            letter-spacing: 0.12em;
+        }
+
+        .process-step h3 {
+            margin-bottom: 9px;
+
+            color: #344054;
+
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .process-step p {
+            color: #667085;
+
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        footer {
+            padding: 34px 20px;
+
+            border-top: 1px solid var(--border);
+
+            background: #ffffff;
+        }
+
+        .footer-container {
+            width: min(1180px, 100%);
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .footer-brand {
+            color: #344054;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .footer-copy {
+            color: #98a2b3;
+
+            font-size: 11px;
+        }
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @media (max-width: 800px) {
+
+            .system-status {
+                display: none;
+            }
+
+            .hero {
+                padding-top: 70px;
+                padding-bottom: 70px;
+            }
+
+            .hero-title {
+                font-size: 47px;
+            }
+
+            .hero-description {
+                font-size: 14px;
+            }
+
+            .tracking-form {
+                flex-direction: column;
+            }
+
+            .track-button {
+                width: 100%;
+            }
+
+            .trust-bar {
+                grid-template-columns: 1fr;
+            }
+
+            .trust-item + .trust-item {
+                border-left: none;
+                border-top: 1px solid var(--border);
+            }
+
+            .feature-grid,
+            .process-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features,
+            .process {
+                padding-top: 75px;
+                padding-bottom: 75px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .navbar-container {
+                width: min(100% - 28px, 1180px);
+            }
+
+            .brand-tagline {
+                display: none;
+            }
+
+            .hero {
+                padding:
+                    58px 15px
+                    65px;
+            }
+
+            .hero-title {
+                font-size: 40px;
+                letter-spacing: -0.045em;
+            }
+
+            .hero-description {
+                font-size: 13px;
+            }
+
+            .tracking-wrapper {
+                margin-top: 34px;
+            }
+
+            .tracking-card {
+                padding: 7px;
+                border-radius: 16px;
+            }
+
+            .tracking-input,
+            .track-button {
+                height: 58px;
+            }
+
+            .trust-bar {
+                width: calc(100% - 28px);
+                border-radius: 15px;
+            }
+
+            .feature-card,
+            .process-step {
+                padding: 25px;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
     </style>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Parcel Tracking</title>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
+
 <body>
-    <nav class="navbar navbar-dark bg-primary">
-       <div class="container">
-          <a class="navbar-brand fw-bold" href="#">📦 Parcel Tracking</a>
-    </div>
-    </nav>
-    <div class="container mt-5 text-center">
-       <h1 class="mb-4 fw-bold">Track Your Parcel</h1>
-       <p class="text-muted">Enter your tracking number below to track your parcel.</p>
-       <div class="row justify-content-center">
-          <form action="/track" method="POST" class="row g-3'>
-                <div class="col-md-6">
-                <div class="input-group">
-                    <input type="text" class="form-control" name="trackingNumber" id="trackingNumber" placeholder="Enter Tracking Number" required>
-                      <button class="btn btn-primary btn-lg" type="submit"> Track</button>
+
+    <!-- =========================================================
+         NAVIGATION
+    ========================================================= -->
+
+    <nav class="navbar">
+
+        <div class="navbar-container">
+
+            <a href="/" class="brand">
+
+                <div class="brand-mark">
+                    📦
                 </div>
-            </form>
+
+                <div class="brand-copy">
+
+                    <div class="brand-name">
+                        Parcel Tracking
+                    </div>
+
+                    <div class="brand-tagline">
+                        Shipment Services
+                    </div>
+
+                </div>
+
+            </a>
+
+            <div class="system-status">
+
+                <span class="system-dot"></span>
+
+                Tracking system operational
+
+            </div>
+
         </div>
-    </div>
-<footer class="bg-light text-center py-3 mt-5">
-       <p>&copy; 2026 Parcel Tracking. All rights reserved.</p>
-</footer>
+
+    </nav>
+
+
+    <!-- =========================================================
+         HERO
+    ========================================================= -->
+
+    <main>
+
+        <section class="hero">
+
+            <div class="hero-container">
+
+                <div class="eyebrow">
+
+                    <span class="eyebrow-icon">
+                        ✓
+                    </span>
+
+                    Secure shipment tracking
+
+                </div>
+
+
+                <h1 class="hero-title">
+
+                    Track your shipment
+                    <span>with confidence.</span>
+
+                </h1>
+
+
+                <p class="hero-description">
+
+                    Enter your tracking number to access the latest
+                    available shipment information and follow your
+                    parcel's delivery progress from one place.
+
+                </p>
+
+
+                <!-- TRACKING -->
+
+                <div class="tracking-wrapper">
+
+                    <div class="tracking-card">
+
+                        <form
+                            action="/track"
+                            method="POST"
+                            class="tracking-form"
+                        >
+
+                            <div class="input-container">
+
+                                <span class="input-icon">
+                                    🔎
+                                </span>
+
+                                <input
+                                    type="text"
+                                    name="trackingNumber"
+                                    id="trackingNumber"
+                                    class="tracking-input"
+                                    placeholder="Enter your tracking number"
+                                    autocomplete="off"
+                                    spellcheck="false"
+                                    required
+                                    aria-label="Tracking number"
+                                >
+
+                            </div>
+
+                            <button
+                                type="submit"
+                                class="track-button"
+                            >
+                                Track shipment
+                            </button>
+
+                        </form>
+
+                    </div>
+
+
+                    <div class="security-note">
+
+                        <span class="security-icon">
+                            🔒
+                        </span>
+
+                        Secure tracking experience
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             TRUST BAR
+        ====================================================== -->
+
+        <section class="trust-bar">
+
+            <div class="trust-item">
+
+                <div class="trust-icon">
+                    ✓
+                </div>
+
+                <div class="trust-title">
+                    Clear shipment status
+                </div>
+
+                <div class="trust-description">
+                    Easily understand the latest available
+                    status of your parcel.
+                </div>
+
+            </div>
+
+
+            <div class="trust-item">
+
+                <div class="trust-icon">
+                    ◉
+                </div>
+
+                <div class="trust-title">
+                    Delivery visibility
+                </div>
+
+                <div class="trust-description">
+                    Follow your shipment's progress throughout
+                    its delivery journey.
+                </div>
+
+            </div>
+
+
+            <div class="trust-item">
+
+                <div class="trust-icon">
+                    🔒
+                </div>
+
+                <div class="trust-title">
+                    Secure access
+                </div>
+
+                <div class="trust-description">
+                    Tracking information is presented through
+                    a secure tracking interface.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FEATURES
+        ====================================================== -->
+
+        <section class="features">
+
+            <div class="features-container">
+
+                <div class="section-heading">
+
+                    <div class="section-label">
+                        Shipment visibility
+                    </div>
+
+                    <h2 class="section-title">
+                        Everything you need to follow your parcel.
+                    </h2>
+
+                    <p class="section-description">
+                        Designed to make shipment information
+                        straightforward, professional and easy to
+                        access from any device.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-grid">
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon">
+                            📍
+                        </div>
+
+                        <h3>
+                            Shipment location
+                        </h3>
+
+                        <p>
+                            View the latest available location or
+                            processing point associated with your
+                            tracking number.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon">
+                            🚚
+                        </div>
+
+                        <h3>
+                            Delivery progress
+                        </h3>
+
+                        <p>
+                            Follow your parcel as it moves through
+                            the shipment and delivery process.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon">
+                            ⏱
+                        </div>
+
+                        <h3>
+                            Tracking updates
+                        </h3>
+
+                        <p>
+                            Review the latest tracking events
+                            recorded against your shipment.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             HOW IT WORKS
+        ====================================================== -->
+
+        <section class="process">
+
+            <div class="process-container">
+
+                <div class="section-heading">
+
+                    <div class="section-label">
+                        How it works
+                    </div>
+
+                    <h2 class="section-title">
+                        Tracking made simple.
+                    </h2>
+
+                    <p class="section-description">
+                        No complicated process. Enter your tracking
+                        number and access your shipment information.
+                    </p>
+
+                </div>
+
+
+                <div class="process-grid">
+
+                    <div class="process-step">
+
+                        <div class="step-number">
+                            STEP 01
+                        </div>
+
+                        <h3>
+                            Enter your tracking number
+                        </h3>
+
+                        <p>
+                            Enter the tracking number provided for
+                            your shipment into the secure tracking
+                            field above.
+                        </p>
+
+                    </div>
+
+
+                    <div class="process-step">
+
+                        <div class="step-number">
+                            STEP 02
+                        </div>
+
+                        <h3>
+                            Submit your request
+                        </h3>
+
+                        <p>
+                            Select "Track shipment" and the system
+                            will process your tracking request.
+                        </p>
+
+                    </div>
+
+
+                    <div class="process-step">
+
+                        <div class="step-number">
+                            STEP 03
+                        </div>
+
+                        <h3>
+                            View shipment information
+                        </h3>
+
+                        <p>
+                            Review the available status, location
+                            and delivery information for your parcel.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================= -->
+
+    <footer>
+
+        <div class="footer-container">
+
+            <div class="footer-brand">
+                📦 Parcel Tracking
+            </div>
+
+            <div class="footer-copy">
+                © 2026 Parcel Tracking. All rights reserved.
+            </div>
+
+        </div>
+
+    </footer>
+
+</body>
 </html>
