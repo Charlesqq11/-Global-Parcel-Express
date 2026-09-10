@@ -60,15 +60,12 @@
             <!-- Status -->
             <div class="mb-3">
                 <label class="form-label">Status</label>
-                <select class="form-select" name="status">
-                    <option {% if parcel.status == "Created" %}selected{% endif %}>Created</option>
-                    <option {% if parcel.status == "Pending" %}selected{% endif %}>Pending</option>
-                    <option {% if parcel.status == "Received" %}selected{% endif %}>Received</option>
-                    <option {% if parcel.status == "In Transit" %}selected{% endif %}>In Transit</option>
-                    <option {% if parcel.status == "Out for Delivery" %}selected{% endif %}>Out for Delivery</option>
-                    <option {% if parcel.status == "Delivered" %}selected{% endif %}>Delivered</option>
-                    <option {% if parcel.status == "On Hold" %}selected{% endif %}>On Hold</option>
-                </select>
+                <input type="text"
+                       class="from-control"
+                       name="status "
+                       value="{{ parcel.status }}"
+                       placeholder="Enter parcel status"
+                       required>
             </div>
 
             <!-- Current Location -->
