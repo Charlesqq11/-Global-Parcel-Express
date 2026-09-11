@@ -1487,8 +1487,182 @@
 
     </footer>
 
-
 </main>
+
+
+<!-- =============================================================
+     AUTOMATIC WORLDWIDE LANGUAGE TRANSLATION
+============================================================= -->
+
+<div
+    id="google_translate_element"
+    style="display:none;"
+    aria-hidden="true">
+</div>
+
+
+<script>
+    /*
+     * Automatic language detection
+     *
+     * The visitor's phone/browser language is detected.
+     *
+     * English visitors remain on the original English page.
+     * Visitors using another supported language are automatically
+     * switched to that language.
+     */
+
+    function googleTranslateElementInit() {
+
+        new google.translate.TranslateElement(
+            {
+                pageLanguage: "en",
+                autoDisplay: false,
+
+                includedLanguages:
+                    "af,am,ar,az,be,bg,bn,bs,ca,ceb,co,cs,cy,da,de,el,en,eo,es,et,eu,fa,fi,fr,fy,ga,gd,gl,gu,ha,haw,he,hi,hmn,hr,ht,hu,hy,id,ig,is,it,ja,jv,ka,kk,km,kn,ko,ku,ky,la,lb,lo,lt,lv,mg,mi,mk,ml,mn,mr,ms,mt,my,ne,nl,no,ny,or,pa,pl,ps,pt,ro,ru,rw,sd,si,sk,sl,sm,sn,so,sq,sr,st,su,sv,sw,ta,te,tg,th,tk,tl,tr,tt,ug,uk,ur,uz,vi,xh,yi,yo,zh-CN,zh-TW,zu"
+            },
+            "google_translate_element"
+        );
+
+        setTimeout(
+            automaticallyTranslatePage,
+            800
+        );
+    }
+
+
+    function automaticallyTranslatePage() {
+
+        /*
+         * Detect the visitor's preferred language.
+         */
+        const browserLanguage =
+            navigator.language ||
+            navigator.userLanguage ||
+            "en";
+
+
+        let language =
+            browserLanguage
+                .toLowerCase()
+                .split("-")[0];
+
+
+        /*
+         * Convert older browser language codes
+         * to Google's language codes.
+         */
+        const languageMap = {
+
+            "zh": "zh-CN",
+
+            "iw": "he",
+
+            "in": "id",
+
+            "jw": "jv"
+
+        };
+
+
+        language =
+            languageMap[language] || language;
+
+
+        /*
+         * English is the original language,
+         * so there is nothing to translate.
+         */
+        if (language === "en") {
+
+            document.documentElement.lang = "en";
+
+            return;
+        }
+
+
+        /*
+         * Wait for Google Translate to create
+         * its hidden language selector.
+         */
+        const translationChecker =
+            setInterval(function () {
+
+                const languageSelector =
+                    document.querySelector(
+                        ".goog-te-combo"
+                    );
+
+
+                if (!languageSelector) {
+
+                    return;
+                }
+
+
+                clearInterval(
+                    translationChecker
+                );
+
+
+                /*
+                 * Make sure the detected language
+                 * is actually supported.
+                 */
+                const supported =
+                    Array.from(
+                        languageSelector.options
+                    ).some(
+                        option =>
+                            option.value === language
+                    );
+
+
+                if (!supported) {
+
+                    return;
+                }
+
+
+                /*
+                 * Automatically select the visitor's
+                 * language.
+                 */
+                languageSelector.value =
+                    language;
+
+
+                languageSelector.dispatchEvent(
+                    new Event("change")
+                );
+
+
+                document.documentElement.lang =
+                    language;
+
+
+            }, 250);
+
+
+        /*
+         * Stop checking after 10 seconds.
+         */
+        setTimeout(function () {
+
+            clearInterval(
+                translationChecker
+            );
+
+        }, 10000);
+    }
+</script>
+
+
+<script
+    src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+    async>
+</script>
 
 
 </body>
